@@ -1,10 +1,8 @@
 /*
+ *= require bootstrap
  *= require_tree .
  *= require_self
  */
-
-/* Import Bootstrap */
-@import "bootstrap";
 
 .solid-backup-container {
   padding: 2rem;

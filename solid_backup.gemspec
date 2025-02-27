@@ -26,6 +26,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency "solid_queue"
   spec.add_dependency "haml-rails"
   spec.add_dependency "bootstrap", "~> 5.3"
+  spec.add_dependency "sassc-rails"
   spec.add_dependency "stimulus-rails"
   spec.add_dependency "turbo-rails"
+  spec.add_dependency "sprockets-rails"
 end
