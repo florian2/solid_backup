@@ -1,0 +1,34 @@
+= form_with model: backup, local: true do |f|
+  - if backup.errors.any?
+    .alert.alert-danger
+      %h4= "#{pluralize(backup.errors.count, 'error')} prohibited this backup from being saved:"
+      %ul
+        - backup.errors.full_messages.each do |message|
+          %li= message
+
+  .mb-3
+    = f.label :name, class: 'form-label'
+    = f.text_field :name, class: 'form-control', placeholder: 'e.g., Daily Production Backup'
+    .form-text A unique name for this backup configuration
+    
+  .mb-3
+    = f.label :database, class: 'form-label'
+    = f.text_field :database, class: 'form-control', placeholder: 'e.g., production_db'
+    .form-text Name of the PostgreSQL database to backup
+  
+  .mb-3
+    = f.label :cron_schedule, class: 'form-label'
+    = f.text_field :cron_schedule, class: 'form-control', placeholder: 'e.g., 0 0 * * *'
+    .form-text
+      Cron expression for backup schedule (
+      %a{href: "https://crontab.guru/", target: "_blank"} Help
+      )
+  
+  .mb-3
+    .form-check.form-switch
+      = f.check_box :enabled, class: 'form-check-input'
+      = f.label :enabled, class: 'form-check-label'
+      .form-text Enable or disable this backup configuration
+  
+  .actions
+    = f.submit 'Save', class: 'btn btn-primary'

@@ -23,4 +23,10 @@ Gem::Specification.new do |spec|
   end
 
   spec.add_dependency "rails", ">= 7.0.8"
+  spec.add_dependency "pg"
+  spec.add_dependency "solid_queue"
+  spec.add_dependency "haml-rails"
+  spec.add_dependency "bootstrap", "~> 5.3"
+  spec.add_dependency "stimulus-rails"
+  spec.add_dependency "turbo-rails"
 end

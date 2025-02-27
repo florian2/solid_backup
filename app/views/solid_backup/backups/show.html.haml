@@ -1,0 +1,47 @@
+%h2= @backup.name
+
+.card.solid-backup-card
+  .card-header
+    %h5.card-title Backup Details
+  .card-body
+    .row
+      .col-md-6
+        %dl
+          %dt Name
+          %dd= @backup.name
+          
+          %dt Database
+          %dd= @backup.database
+          
+          %dt Schedule
+          %dd= @backup.cron_schedule || 'Not scheduled'
+          
+          %dt Enabled
+          %dd
+            %span.badge{class: @backup.enabled? ? 'bg-success' : 'bg-secondary'}
+              = @backup.enabled? ? 'Yes' : 'No'
+      
+      .col-md-6
+        %dl
+          %dt Status
+          %dd
+            %span.badge{"class" => "bg-#{backup_status_color(@backup.status)}"}
+              = @backup.status || 'N/A'
+          
+          %dt Last Backup Date
+          %dd= @backup.backup_date ? l(@backup.backup_date, format: :long) : 'Never'
+          
+          %dt File Path
+          %dd= @backup.file_path || 'N/A'
+          
+          %dt File Size
+          %dd= (@backup.file_path && File.exist?(@backup.file_path)) ? number_to_human_size(File.size(@backup.file_path)) : 'N/A'
+    
+    - if @backup.log.present?
+      %h5.mt-4 Log
+      %pre.solid-backup-log= @backup.log
+    
+    .solid-backup-actions
+      = link_to 'Run Now', run_backup_path(@backup), method: :post, class: 'btn btn-primary', data: { confirm: 'Are you sure you want to run this backup now?' }
+      = link_to 'Edit', edit_backup_path(@backup), class: 'btn btn-secondary'
+      = link_to 'Back to Backups', backups_path, class: 'btn btn-outline-secondary'

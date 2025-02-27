@@ -1,15 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Solid backup</title>
+  <title>SolidBackup</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
   <%= stylesheet_link_tag    "solid_backup/application", media: "all" %>
+  <%= javascript_include_tag "solid_backup/application" %>
 </head>
 <body>
-
-<%= yield %>
-
+  <div class="container solid-backup-container">
+    <h1 class="solid-backup-header">SolidBackup</h1>
+    
+    <% if notice %>
+      <div class="alert alert-success"><%= notice %></div>
+    <% end %>
+    
+    <% if alert %>
+      <div class="alert alert-danger"><%= alert %></div>
+    <% end %>
+    
+    <%= yield %>
+    
+    <footer class="mt-5 pt-3 border-top">
+      <small class="text-muted">SolidBackup v<%= SolidBackup::VERSION %></small>
+    </footer>
+  </div>
 </body>
 </html>
