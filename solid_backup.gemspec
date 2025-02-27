@@ -5,9 +5,9 @@ Gem::Specification.new do |spec|
   spec.version     = SolidBackup::VERSION
   spec.authors     = ["florian2"]
   spec.email       = ["fgoersdorf@gmail.com"]
-  spec.homepage    = "TODO"
-  spec.summary     = "TODO: Summary of SolidBackup."
-  spec.description = "TODO: Description of SolidBackup."
+  spec.homepage    = "https://github.com/florian2/solid_backup"
+  spec.summary     = "SolidBackup is a Rails engine that provides a database backup solution."
+  spec.description = "SolidBackup is a Rails engine that provides a comprehensive PostgreSQL database backup solution for Rails applications. It includes a user-friendly interface to manage backup configurations, view recent backups, and schedule backups using SolidQueue cron jobs."
   spec.license     = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the "allowed_push_host"
