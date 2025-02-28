@@ -6,8 +6,18 @@
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
-  <%= stylesheet_link_tag    "solid_backup/application", media: "all" %>
-  <%= javascript_include_tag "solid_backup/application" %>
+  <%= stylesheet_link_tag "solid_backup/application", media: "all" %>
+  
+  <% if defined?(importmap_tags) %>
+    <%= javascript_importmap_tags %>
+  <% end %>
+  
+  <% if Rails.env.development? %>
+    <%= javascript_include_tag "turbo", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "stimulus", "data-turbo-track": "reload" %>
+  <% end %>
+  
+  <%= javascript_include_tag "solid_backup/application", "data-turbo-track": "reload" %>
 </head>
 <body>
   <div class="container solid-backup-container">

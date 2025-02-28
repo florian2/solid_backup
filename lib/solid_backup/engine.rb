@@ -3,6 +3,7 @@ require 'bootstrap'
 require 'stimulus-rails'
 require 'turbo-rails'
 require 'solid_queue'
+require 'sprockets/railtie'
 
 module SolidBackup
   class Engine < ::Rails::Engine
@@ -12,15 +13,11 @@ module SolidBackup
       app.config.assets.precompile += %w( solid_backup_manifest.js solid_backup/application.js )
     end
     
-    initializer "solid_backup.importmap", before: "importmap" do |app|
-      # For importmap setup if your app uses it
-      if defined?(Importmap)
-        app.config.importmap.paths << root.join("config/importmap.rb")
-        app.config.importmap.cache_sweepers << root.join("app/javascript")
+    initializer "solid_backup.javascript_packages" do |app|
+      # Ensure JavaScript dependencies are available in asset pipeline
+      %w[stimulus turbo].each do |package|
+        app.config.assets.paths << Rails.root.join('node_modules', package, 'dist') if Dir.exist?(Rails.root.join('node_modules', package))
       end
     end
-    
-    config.autoload_paths << root.join('app', 'javascript')
-    config.autoload_once_paths << root.join('app', 'javascript')
   end
 end

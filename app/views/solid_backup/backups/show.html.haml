@@ -36,6 +36,9 @@
           
           %dt File Size
           %dd= (@backup.file_path && File.exist?(@backup.file_path)) ? number_to_human_size(File.size(@backup.file_path)) : 'N/A'
+          
+          %dt Schema Version
+          %dd= @backup.schema_version || 'N/A'
     
     - if @backup.log.present?
       %h5.mt-4 Log

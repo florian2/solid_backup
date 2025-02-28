@@ -41,6 +41,21 @@ $ rails db:migrate
 The installer will:
 1. Add required routes
 2. Create database migrations for backup configurations
+3. Set up an initializer with default settings
+
+## Updating
+
+When upgrading to a new version of SolidBackup, run the update generator:
+
+```bash
+$ bundle update solid_backup
+$ rails generate solid_backup:update
+$ rails db:migrate
+```
+
+The update generator will:
+1. Check for and apply any new migrations
+2. Preserve your existing configuration while adding any new options
 
 ## Usage
 

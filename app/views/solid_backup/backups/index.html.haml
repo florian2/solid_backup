@@ -13,11 +13,12 @@
             %th Schedule
             %th Status
             %th Last Backup
+            %th Schema Version
             %th Enabled
             %th Actions
         %tbody
           - @backups.each do |backup|
-            %tr{"data-controller" => "backup"}
+            %tr
               %td= backup.name
               %td= backup.database
               %td= backup.cron_schedule
@@ -25,12 +26,13 @@
                 %span.badge{"class" => "bg-#{backup_status_color(backup.status)}", "data-backup-target" => "status"}
                   = backup.status || 'N/A'
               %td= backup.backup_date ? l(backup.backup_date, format: :short) : 'Never'
+              %td= backup.schema_version || 'N/A'
               %td
                 %span.badge{class: backup.enabled? ? 'bg-success' : 'bg-secondary'}
                   = backup.enabled? ? 'Yes' : 'No'
               %td
                 .btn-group
-                  = link_to 'Run Now', run_backup_path(backup), class: 'btn btn-sm btn-outline-primary', data: { action: 'click->backup#run' }
+                  = link_to 'Run Now', run_backup_path(backup), class: 'btn btn-sm btn-outline-primary', method: :post
                   = link_to 'Edit', edit_backup_path(backup), class: 'btn btn-sm btn-outline-secondary'
                   = link_to 'Delete', backup_path(backup), method: :delete, class: 'btn btn-sm btn-outline-danger', data: { confirm: 'Are you sure?' }
                 - if backup.log.present?
@@ -52,6 +54,7 @@
           %th Database
           %th Date
           %th Status
+          %th Schema Version
           %th File Size
       %tbody
         - @recent_backups.each do |backup|
@@ -62,4 +65,5 @@
             %td
               %span.badge{"class" => "bg-#{backup_status_color(backup.status)}"}
                 = backup.status
+            %td= backup.schema_version || 'N/A'
             %td= number_to_human_size(File.size(backup.file_path)) if backup.file_path && File.exist?(backup.file_path)
