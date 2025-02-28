@@ -84,50 +84,12 @@ module SolidBackup
       rescue => e
         update(
           status: :failed,
-          log: "Backup failed with error: #{e.message}"
+          log: "Backup failed with rescue error: #{e.message}"
         )
       end
 
       cleanup_old_backups
     end
-
-    # def run_backup
-    #   timestamp = Time.current.strftime("%Y%m%d%H%M%S")
-    #   backup_filename = "#{database}_#{timestamp}.sql"
-    #   backup_directory = SolidBackup.configuration.backup_path.to_s
-    #   FileUtils.mkdir_p(backup_directory) unless File.directory?(backup_directory)
-
-    #   file_path = File.join(backup_directory, backup_filename)
-    #   pg_dump_command = File.join(SolidBackup.configuration.postgresql_bin_path, "pg_dump")
-
-    #   command = "#{pg_dump_command} -Fc #{database} > #{file_path}"
-
-    #   begin
-    #     result = system(command)
-
-    #     if result
-    #       update(
-    #         file_path: file_path,
-    #         status: :completed,
-    #         backup_date: Time.current,
-    #         schema_version: ActiveRecord::Migrator.current_version,
-    #         log: "Backup completed successfully at #{Time.current}. Schema version: #{ActiveRecord::Migrator.current_version}"
-    #       )
-    #     else
-    #       update(
-    #         status: :failed,
-    #         log: "Backup failed with error code: #{$?.exitstatus}"
-    #       )
-    #     end
-    #   rescue => e
-    #     update(
-    #       status: :failed,
-    #       log: "Backup failed with error: #{e.message}"
-    #     )
-    #   end
-
-    #   cleanup_old_backups
-    # end
 
     def cleanup_old_backups
       return unless SolidBackup.configuration.retention_days > 0
