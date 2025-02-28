@@ -26,7 +26,7 @@ module SolidBackup
             timestamp = Time.now.utc.strftime("%Y%m%d%H%M%S")
             original_file = Dir.glob("#{migrations_path}/*_#{migration}").first
             
-            migration_template original_file, "db/migrate/#{timestamp}_#{migration}"
+            copy_file original_file, "db/migrate/#{timestamp}_#{migration}"
             sleep 1 # Ensure timestamps are unique
           end
           
