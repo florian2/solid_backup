@@ -20,7 +20,12 @@
           - @backups.each do |backup|
             %tr
               %td= backup.name
-              %td= backup.database
+              %td
+                - if backup.database_config
+                  = link_to backup.database_config.name, database_config_path(backup.database_config)
+                  %span.badge.bg-info= backup.database_config.format
+                - else
+                  = backup.database
               %td= backup.cron_schedule
               %td
                 %span.badge{"class" => "bg-#{backup_status_color(backup.status)}", "data-backup-target" => "status"}

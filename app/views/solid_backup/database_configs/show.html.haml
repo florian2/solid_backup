@@ -1,0 +1,62 @@
+%h2= @database_config.name
+
+.card.solid-backup-card
+  .card-header
+    %h5.card-title Database Configuration Details
+  .card-body
+    .row
+      .col-md-6
+        %dl
+          %dt Name
+          %dd= @database_config.name
+          
+          %dt Database
+          %dd= @database_config.database
+          
+          %dt Host
+          %dd= @database_config.host
+          
+          %dt Port
+          %dd= @database_config.port
+          
+          %dt Username
+          %dd= @database_config.username || 'Not set'
+          
+          %dt Password
+          %dd ••••••••••• (hidden)
+          
+      .col-md-6
+        %dl
+          %dt Format
+          %dd
+            %span.badge.bg-info= @database_config.format
+            = case @database_config.format
+              when 'p' then ' (Plain SQL)'
+              when 'c' then ' (Custom)'
+              when 'd' then ' (Directory)'
+              when 't' then ' (Tar)'
+              else ''
+              end
+          
+          %dt Verbose Output
+          %dd
+            %span.badge{class: @database_config.verbose? ? 'bg-success' : 'bg-secondary'}
+              = @database_config.verbose? ? 'Yes' : 'No'
+          
+          %dt No Owner Commands
+          %dd
+            %span.badge{class: @database_config.no_owner? ? 'bg-success' : 'bg-secondary'}
+              = @database_config.no_owner? ? 'Yes' : 'No'
+          
+          %dt Additional Options
+          %dd= @database_config.options || 'None'
+          
+          %dt Enabled
+          %dd
+            %span.badge{class: @database_config.enabled? ? 'bg-success' : 'bg-secondary'}
+              = @database_config.enabled? ? 'Yes' : 'No'
+    
+    .solid-backup-actions
+      = link_to 'Test Connection', test_connection_database_config_path(@database_config), method: :post, class: 'btn btn-primary'
+      = link_to 'Edit', edit_database_config_path(@database_config), class: 'btn btn-secondary'
+      = link_to 'Back to Database Configs', database_configs_path, class: 'btn btn-outline-secondary'

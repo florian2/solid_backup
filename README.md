@@ -5,6 +5,7 @@ SolidBackup is a Rails engine that provides a comprehensive PostgreSQL database 
 ## Features
 
 - Create and manage database backup configurations
+- Automatic detection of database settings from database.yml
 - View the last seven days of backup files
 - Schedule backups using cron expressions via SolidQueue
 - Monitor backup status and logs
@@ -77,6 +78,24 @@ SolidBackup.configure do |config|
   config.postgresql_bin_path = '/usr/bin' # Path to PostgreSQL binaries (pg_dump)
   config.retention_days = 7 # Number of days to keep backups (default: 7)
 end
+```
+
+### Database Configuration
+
+SolidBackup automatically detects and uses your PostgreSQL database settings from your application's `database.yml` file. You can:
+
+1. **Use the current database settings**: When creating a new database configuration, the form will be pre-filled with the settings from your current Rails environment.
+
+2. **One-click configuration creation**: Use the "Create from database.yml" button to instantly create a configuration based on your current environment.
+
+3. **Customized backup options**: Even when using database.yml settings, you can still customize backup format, compression, and other pg_dump options.
+
+```ruby
+# Example of programmatically creating a config from database.yml
+SolidBackup::DatabaseConfig.create_from_database_yml(
+  'production',  # environment name
+  format: 'c'    # custom format with compression
+)
 ```
 
 ## Contributing
