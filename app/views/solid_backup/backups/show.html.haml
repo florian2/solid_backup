@@ -11,7 +11,12 @@
           %dd= @backup.name
           
           %dt Database
-          %dd= @backup.database
+          %dd
+            - if @backup.database_config
+              = link_to @backup.database_config.name, database_config_path(@backup.database_config)
+              %span.badge.bg-info= @backup.database_config.format
+            - else
+              = @backup.database
           
           %dt Schedule
           %dd= @backup.cron_schedule || 'Not scheduled'

@@ -1,6 +1,7 @@
 module SolidBackup
   class BackupsController < ApplicationController
     before_action :set_backup, only: [:show, :edit, :update, :destroy, :run]
+    before_action :load_database_configs, only: [:new, :edit, :create, :update]
     
     def index
       @backups = Backup.all
@@ -50,8 +51,12 @@ module SolidBackup
         @backup = Backup.find(params[:id])
       end
       
+      def load_database_configs
+        @database_configs = DatabaseConfig.where(enabled: true).order(:name)
+      end
+      
       def backup_params
-        params.require(:backup).permit(:name, :database, :cron_schedule, :enabled)
+        params.require(:backup).permit(:name, :database, :database_config_id, :cron_schedule, :enabled)
       end
   end
 end

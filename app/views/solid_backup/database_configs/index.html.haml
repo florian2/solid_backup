@@ -1,0 +1,44 @@
+.d-flex.justify-content-between.align-items-center.mb-4
+  %h2 Database Configurations
+  .d-flex.gap-2
+    = link_to 'New Database Configuration', new_database_config_path, class: 'btn btn-primary'
+    = button_to 'Create from database.yml', create_from_current_db_database_configs_path, class: 'btn btn-outline-secondary', data: { confirm: "This will create a database configuration using your #{Rails.env} environment settings. Continue?" }
+
+.row
+  .col-12
+    - if @database_configs.any?
+      %table.table.table-striped.table-hover
+        %thead
+          %tr
+            %th Name
+            %th Database
+            %th Host
+            %th Port
+            %th Format
+            %th Enabled
+            %th Actions
+        %tbody
+          - @database_configs.each do |config|
+            %tr
+              %td= config.name
+              %td= config.database
+              %td= config.host
+              %td= config.port
+              %td
+                %span.badge.bg-info= config.format
+              %td
+                %span.badge{class: config.enabled? ? 'bg-success' : 'bg-secondary'}
+                  = config.enabled? ? 'Yes' : 'No'
+              %td
+                .btn-group
+                  = link_to 'Test Connection', test_connection_database_config_path(config), method: :post, class: 'btn btn-sm btn-outline-primary'
+                  = link_to 'Show', database_config_path(config), class: 'btn btn-sm btn-outline-info'
+                  = link_to 'Edit', edit_database_config_path(config), class: 'btn btn-sm btn-outline-secondary'
+                  = link_to 'Delete', database_config_path(config), method: :delete, class: 'btn btn-sm btn-outline-danger', data: { confirm: 'Are you sure?' }
+    - else
+      .alert.alert-info
+        No database configurations found. 
+        = link_to 'Create your first one', new_database_config_path
+
+.mt-4
+  = link_to 'Back to Backups', backups_path, class: 'btn btn-secondary'

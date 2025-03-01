@@ -1,0 +1,76 @@
+= form_with model: database_config, local: true do |f|
+  - if database_config.errors.any?
+    .alert.alert-danger
+      %h4= "#{pluralize(database_config.errors.count, 'error')} prohibited this database configuration from being saved:"
+      %ul
+        - database_config.errors.full_messages.each do |message|
+          %li= message
+
+  .mb-3
+    = f.label :name, class: 'form-label'
+    = f.text_field :name, class: 'form-control', placeholder: 'e.g., Production Database'
+    .form-text A unique name for this database configuration
+
+  %h5.mb-3 Connection Settings
+  
+  .row.mb-3
+    .col-md-6
+      = f.label :host, class: 'form-label'
+      = f.text_field :host, class: 'form-control', placeholder: 'localhost'
+      .form-text Database host
+      
+    .col-md-6
+      = f.label :port, class: 'form-label'
+      = f.number_field :port, class: 'form-control', placeholder: '5432'
+      .form-text Database port (usually 5432)
+
+  .row.mb-3
+    .col-md-4
+      = f.label :database, class: 'form-label'
+      = f.text_field :database, class: 'form-control', placeholder: 'mydatabase'
+      .form-text Database name
+      
+    .col-md-4
+      = f.label :username, class: 'form-label'
+      = f.text_field :username, class: 'form-control', placeholder: 'postgres'
+      .form-text Database username
+      
+    .col-md-4
+      = f.label :password, class: 'form-label'
+      = f.password_field :password, class: 'form-control', placeholder: '••••••••••'
+      .form-text Database password
+  
+  %h5.mb-3 Backup Options
+  
+  .row.mb-3
+    .col-md-6
+      = f.label :format, class: 'form-label'
+      = f.select :format, SolidBackup::DatabaseConfig.format_options, {}, class: 'form-select'
+      .form-text Output format for pg_dump
+      
+    .col-md-6
+      = f.label :options, class: 'form-label'
+      = f.text_field :options, class: 'form-control', placeholder: '--schema=public'
+      .form-text Additional pg_dump options
+  
+  .row.mb-3
+    .col-md-6
+      .form-check.form-switch
+        = f.check_box :verbose, class: 'form-check-input'
+        = f.label :verbose, class: 'form-check-label'
+        .form-text Enable verbose output (-v)
+        
+    .col-md-6
+      .form-check.form-switch
+        = f.check_box :no_owner, class: 'form-check-input'
+        = f.label :no_owner, "No Owner", class: 'form-check-label'
+        .form-text Do not output ownership commands (-O)
+    
+  .mb-3
+    .form-check.form-switch
+      = f.check_box :enabled, class: 'form-check-input'
+      = f.label :enabled, class: 'form-check-label'
+      .form-text Enable or disable this database configuration
+  
+  .actions
+    = f.submit 'Save', class: 'btn btn-primary'
